@@ -245,7 +245,7 @@ CASE State OF
 			Zeros := Zeros + 1;
 			State := 100;
 		ELSIF Average >=BottomCut AND Average <TopCut THEN//good
-			PlixNumber := 1;
+			PlixNumber := 2;
 			Single := TRUE;
 			State := 2000;
 		ELSIF Average >=TopCut THEN//wiggle process
