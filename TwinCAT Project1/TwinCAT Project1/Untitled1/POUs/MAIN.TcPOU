@@ -240,38 +240,19 @@ CASE State OF
 		END_IF
 	1200:
 		
-		IF Average > 200 THEN//repick
-			PlixNumber := 0;
-			Zeros := Zeros + 1;
-			State := 100;
-		ELSIF Average >=BottomCut AND Average <TopCut THEN//good
-			PlixNumber := 2;
-			Single := TRUE;
-			State := 2000;
-		ELSIF Average >=TopCut THEN//wiggle process
-			Double := TRUE;
-			State := 1300;
-		END_IF
-		IF Calibrate THEN
-			Single := TRUE;
-		 	PlixNumberScan := Average;
-			PlixNumberScanLeft :=AverageLeft;
-			PlixNumberScanRight :=AverageRight;
-			State := 2500;
-		END_IF
 		
 		IF Average < BottomCut THEN//good
-			PlixNumber := 2;
+			PlixNumber := 1;
 			Single := TRUE;
 			State := 2000;
 		ELSIF Average >=BottomCut AND Average <TopCut THEN//double
 			PlixNumber := 2;
 			Double := TRUE;
-			State := 1300;
+			State := 1400;
 		ELSIF Average >=TopCut THEN//repick
 			PlixNumber := 0;
 			Zeros := Zeros + 1;
-			State := 100;
+			State := 2500;
 		END_IF
 		IF Calibrate THEN
 			Single := TRUE;
@@ -282,31 +263,7 @@ CASE State OF
 		END_IF
 		
 		
-	1300:
-		IF AverageLeft < TopCut +60 AND AverageRight > TopCut +60 THEN
-			GVL.LeftAirJet := TRUE;
-			State := 1350;
-		ELSIF AverageLeft > TopCut+60 AND AverageRight < TopCut +60  THEN
-			GVL.RightAirJet := TRUE;
-			State := 1350;
-		ELSE 
-			State := 1400;
-		END_IF
-		
-	1350:
-		Delay(IN:=TRUE, PT:=T#500MS);
-		IF Delay.Q THEN
-			Delay(IN:=FALSE);
-			GVL.LeftAirJet := FALSE;
-			GVL.RightAirJet := FALSE;
-			State := 1351;
-		END_IF
-	1351:
-		Delay(IN:=TRUE, PT:=T#200MS);
-		IF Delay.Q THEN
-			Delay(IN:=FALSE);
-			State := 1000;
-		END_IF
+	
 	1400:
 		Wiggle := Wiggle +1;
 		IF ArduinoBusyBit THEN//if arduino is free then ask to change state
@@ -315,6 +272,8 @@ CASE State OF
 			Delay(IN:=TRUE, PT:=T#500MS);
 			IF Delay.Q THEN
 				Delay(IN:=FALSE);
+				GVL.RightAirJet := TRUE;
+				GVL.LeftAirJet := TRUE;
 				State := 1450; 
 			END_IF
 		END_IF
@@ -325,6 +284,8 @@ CASE State OF
 			Delay(IN:=TRUE, PT:=T#500MS);
 			IF Delay.Q THEN
 				Delay(IN:=FALSE);
+				GVL.LeftAirJet := FALSE;
+				GVL.RightAirJet := FALSE;
 				State := 1500;
 			END_IF
 		END_IF
@@ -462,14 +423,7 @@ END_CASE]]></ST>
       <LineId Id="616" Count="3" />
       <LineId Id="615" Count="0" />
       <LineId Id="620" Count="0" />
-      <LineId Id="622" Count="10" />
-      <LineId Id="644" Count="0" />
-      <LineId Id="643" Count="0" />
-      <LineId Id="645" Count="0" />
-      <LineId Id="827" Count="0" />
-      <LineId Id="649" Count="2" />
-      <LineId Id="254" Count="0" />
-      <LineId Id="646" Count="0" />
+      <LineId Id="622" Count="0" />
       <LineId Id="1103" Count="0" />
       <LineId Id="1105" Count="0" />
       <LineId Id="1125" Count="1" />
@@ -482,19 +436,15 @@ END_CASE]]></ST>
       <LineId Id="1114" Count="0" />
       <LineId Id="1116" Count="6" />
       <LineId Id="1104" Count="0" />
-      <LineId Id="1123" Count="1" />
-      <LineId Id="728" Count="0" />
-      <LineId Id="730" Count="7" />
-      <LineId Id="729" Count="0" />
-      <LineId Id="738" Count="1" />
-      <LineId Id="742" Count="5" />
-      <LineId Id="740" Count="0" />
-      <LineId Id="806" Count="0" />
-      <LineId Id="808" Count="2" />
-      <LineId Id="813" Count="0" />
-      <LineId Id="807" Count="0" />
+      <LineId Id="1123" Count="0" />
+      <LineId Id="1220" Count="0" />
+      <LineId Id="1124" Count="0" />
       <LineId Id="748" Count="0" />
-      <LineId Id="752" Count="20" />
+      <LineId Id="752" Count="6" />
+      <LineId Id="1245" Count="1" />
+      <LineId Id="759" Count="9" />
+      <LineId Id="1247" Count="1" />
+      <LineId Id="769" Count="3" />
       <LineId Id="774" Count="6" />
       <LineId Id="782" Count="0" />
       <LineId Id="793" Count="0" />
