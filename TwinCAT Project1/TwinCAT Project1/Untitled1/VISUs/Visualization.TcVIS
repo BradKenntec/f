@@ -534,7 +534,7 @@
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"GVL.FanDyno :=220
+                      <v n="STSnippet">"GVL.FanDyno :=MAIN.WingUp
 GVL.ArduinoState := MAIN.WingGo"</v>
                     </o>
                   </a>
@@ -709,7 +709,7 @@ GVL.ArduinoState := MAIN.WingGo"</v>
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"GVL.FanDyno :=180
+                      <v n="STSnippet">"GVL.FanDyno := MAIN.WingFlat
 GVL.ArduinoState := MAIN.WingGo"</v>
                     </o>
                   </a>
@@ -880,11 +880,11 @@ GVL.ArduinoState := MAIN.WingGo"</v>
                 <v n="VisualElementIdentifier">"GenElemInst_26"</v>
                 <n n="VisualElementOfflinePaintCommands" />
                 <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="STSnippetInputAction[]">
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="IInputAction[]">
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"GVL.FanDyno :=80
+                      <v n="STSnippet">"GVL.FanDyno :=MAIN.WingDown
 GVL.ArduinoState := MAIN.WingGo"</v>
                     </o>
                   </a>
@@ -1059,7 +1059,7 @@ GVL.ArduinoState := MAIN.WingGo"</v>
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"GVL.FanDyno :=155
+                      <v n="STSnippet">"GVL.FanDyno :=MAIN.WingHDown
 GVL.ArduinoState := MAIN.WingGo"</v>
                     </o>
                   </a>
@@ -1363,7 +1363,7 @@ GVL.ArduinoState := MAIN.WingGo"</v>
                 <v n="VisualElementIdentifier">"GenElemInst_32"</v>
                 <n n="VisualElementOfflinePaintCommands" />
                 <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="STSnippetInputAction[]">
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="IInputAction[]">
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
@@ -2542,7 +2542,7 @@ MAIN.GoTime := MAIN.TimeSeconds;"</v>
                 <v n="VisualElementIdentifier">"GenElemInst_46"</v>
                 <n n="VisualElementOfflinePaintCommands" />
                 <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="STSnippetInputAction[]">
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="IInputAction[]">
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
@@ -2550,6 +2550,10 @@ MAIN.GoTime := MAIN.TimeSeconds;"</v>
 GVL.ArduinoState := 0;
 GVL.StepperUp := FALSE;
 GVL.StepperDown := FALSE;
+GVL.AirJet1 := FALSE;
+GVL.AirJet2 := FALSE;
+GVL.LeftAirJet := FALSE;
+GVL.RightAirJet := FALSE;
 GVL.VelocityMotor :=0;
 MAIN.TotalTime := MAIN.TimeSeconds;
 
@@ -2723,7 +2727,7 @@ MAIN.TotalTime := MAIN.TimeSeconds;
                 <v n="VisualElementIdentifier">"GenElemInst_48"</v>
                 <n n="VisualElementOfflinePaintCommands" />
                 <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="STSnippetInputAction[]">
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="IInputAction[]">
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
@@ -2903,7 +2907,7 @@ MAIN.TotalTime := MAIN.TimeSeconds;
                 <v n="VisualElementIdentifier">"GenElemInst_50"</v>
                 <n n="VisualElementOfflinePaintCommands" />
                 <n n="VisualElementFrameInformation" />
-                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="STSnippetInputAction[]">
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String">
                   <v>OnMouseDown</v>
                   <a cet="STSnippetInputAction">
                     <o>
@@ -3166,11 +3170,11 @@ GVL.VelocityMotor :=0;"</v>
                     </o>
                     <o>
                       <v n="Id">1649127785L</v>
-                      <v n="Value">541</v>
+                      <v n="Value">540</v>
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
-                      <v n="Value">135</v>
+                      <v n="Value">139</v>
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
@@ -3223,11 +3227,11 @@ GVL.VelocityMotor :=0;"</v>
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">591</v>
+                      <v n="Value">590</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
-                      <v n="Value">160</v>
+                      <v n="Value">164</v>
                     </o>
                     <o>
                       <v n="Id">493260384L</v>
@@ -5779,10 +5783,10 @@ MAIN.StartTime := 0;"</v>
               <d n="FbMethods" t="CaseInsensitiveHashtable" ckt="String" cvt="Guid">
                 <v>FB_Init</v>
                 <v>1d8fd15c-101d-4c62-983e-3f28b4251d1d</v>
-                <v>FB_Reinit</v>
-                <v>a58a57e9-8216-4588-9215-b2aa5d48a13a</v>
                 <v>FB_Exit</v>
                 <v>1da05468-6504-4913-ad29-0e0d7fd2efff</v>
+                <v>FB_Reinit</v>
+                <v>a58a57e9-8216-4588-9215-b2aa5d48a13a</v>
               </d>
               <v n="FbName">"NotImportant"</v>
               <v n="FbGuid">{5de5edb7-9777-4c8d-9d6a-d5145cdc7859}</v>

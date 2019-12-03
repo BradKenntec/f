@@ -24,7 +24,12 @@ VAR
 	FanGo					:USINT		:=30;
 	PlixFanGo				:USINT		:=40;
 	State					:INT 		:=0;
-
+	
+	WingUp					:USINT 		:=220;
+	WingFlat				:USINT 		:=180;
+	WingHDown				:USINT 		:=155;
+	WingDown				:USINT 		:=80;
+	
 	Byte31IN		AT %I*	:USINT;
 	ArduinoBusyBit			:BOOL;
 	ArduinoComsTimer		:TON;
@@ -165,7 +170,7 @@ CASE State OF
 		END_IF
 	
 	300:
-		IF StackSensor1 THEN//AND NOT StackSensor2 AND NOT StackSensor3 THEN
+		IF StackSensor1 THEN//AND  StackSensor2 AND  StackSensor3 THEN
 			GVL.StepperUp := TRUE;
 		ELSE 
 			GVL.VelocityMotor :=0;
@@ -183,7 +188,7 @@ CASE State OF
       	IF Delay.Q THEN
         	Delay(IN:=FALSE);
 			State := 500;
-			TopCount := GVL.CounterVal - 19000;
+			TopCount := GVL.CounterVal - 6000;
 		END_IF
 		
 		
@@ -201,12 +206,17 @@ CASE State OF
 		END_IF
 	700:
 		GVL.ArduinoState := Scanner;
-		IF (GVL.CounterVal > TopCount) AND (Average > 200) THEN
+		IF (GVL.CounterVal > TopCount) AND (Average > 100) THEN
 			GVL.StepperUp := TRUE;
+			IF NOT Calibrate THEN
+				GVL.AirJet1 := TRUE;
+			END_IF
+			
 		ELSE 
 			GVL.VelocityMotor :=0;
 			GVL.StepperUp := FALSE;
 			GVL.StepperDown := FALSE;
+			GVL.AirJet1 := FALSE;
 			State :=800;
 		END_IF		
 	800:
@@ -241,18 +251,19 @@ CASE State OF
 	1200:
 		
 		
-		IF Average < BottomCut THEN//good
+	IF Average > TopCut THEN//repick
+			PlixNumber := 0;
+			Zeros := Zeros + 1;
+			Zero := TRUE;
+			State := 2500;
+		ELSIF Average <=TopCut AND Average >BottomCut THEN//good
 			PlixNumber := 1;
 			Single := TRUE;
 			State := 2000;
-		ELSIF Average >=BottomCut AND Average <TopCut THEN//double
-			PlixNumber := 2;
+		ELSIF Average <=BottomCut THEN//wiggle process
+			PlixNumber := 1;
 			Double := TRUE;
 			State := 1400;
-		ELSIF Average >=TopCut THEN//repick
-			PlixNumber := 0;
-			Zeros := Zeros + 1;
-			State := 2500;
 		END_IF
 		IF Calibrate THEN
 			Single := TRUE;
@@ -262,12 +273,11 @@ CASE State OF
 			State := 2500;
 		END_IF
 		
-		
 	
 	1400:
 		Wiggle := Wiggle +1;
 		IF ArduinoBusyBit THEN//if arduino is free then ask to change state
-			GVL.FanDyno :=130;
+			GVL.FanDyno := WingDown;
 			GVL.ArduinoState := WingGo;
 			Delay(IN:=TRUE, PT:=T#500MS);
 			IF Delay.Q THEN
@@ -279,7 +289,7 @@ CASE State OF
 		END_IF
 	1450:
 		IF ArduinoBusyBit THEN//if arduino is free then ask to change state
-			GVL.FanDyno :=200;
+			GVL.FanDyno := WingUp;
 			GVL.ArduinoState := WingGo;
 			Delay(IN:=TRUE, PT:=T#500MS);
 			IF Delay.Q THEN
@@ -290,7 +300,7 @@ CASE State OF
 			END_IF
 		END_IF
 	1500:
-		GVL.FanDyno :=170;
+		GVL.FanDyno :=WingFlat;
 		GVL.ArduinoState := WingGo;
 		Delay(IN:=TRUE, PT:=T#500MS);
 		IF Delay.Q THEN
@@ -347,12 +357,15 @@ CASE State OF
 		Single := FALSE;
 		Double := FALSE;
 		EndTime := TimeSeconds;	
-		AverageTime := (EndTime - GoTime)/Singles;
+		IF Singles > 1 THEN
+			AverageTime := (EndTime - GoTime)/Singles;
+		END_IF
+		
 		CycleTime := EndTime - StartTime;
 		IF Calibrate THEN
 			Singles := Singles -1;
-			TopCut := Average + 140;
-			BottomCut := Average + 40;
+			TopCut := Average + 100;
+			BottomCut := Average - 20;
 			TopCutLeft := AverageLeft - 40;
 			BottomCutLeft := AverageLeft - 66;
 			TopCutRight := AverageRight + 10;
@@ -405,7 +418,12 @@ END_CASE]]></ST>
       <LineId Id="497" Count="0" />
       <LineId Id="480" Count="0" />
       <LineId Id="496" Count="0" />
-      <LineId Id="481" Count="7" />
+      <LineId Id="481" Count="1" />
+      <LineId Id="1262" Count="2" />
+      <LineId Id="1260" Count="0" />
+      <LineId Id="483" Count="3" />
+      <LineId Id="1261" Count="0" />
+      <LineId Id="487" Count="1" />
       <LineId Id="290" Count="0" />
       <LineId Id="505" Count="6" />
       <LineId Id="504" Count="0" />
@@ -425,18 +443,12 @@ END_CASE]]></ST>
       <LineId Id="620" Count="0" />
       <LineId Id="622" Count="0" />
       <LineId Id="1103" Count="0" />
-      <LineId Id="1105" Count="0" />
-      <LineId Id="1125" Count="1" />
-      <LineId Id="1108" Count="1" />
-      <LineId Id="1128" Count="0" />
-      <LineId Id="1112" Count="0" />
-      <LineId Id="1127" Count="0" />
-      <LineId Id="1113" Count="0" />
-      <LineId Id="1129" Count="1" />
-      <LineId Id="1114" Count="0" />
-      <LineId Id="1116" Count="6" />
+      <LineId Id="1265" Count="2" />
+      <LineId Id="1284" Count="0" />
+      <LineId Id="1268" Count="5" />
+      <LineId Id="1283" Count="0" />
+      <LineId Id="1274" Count="8" />
       <LineId Id="1104" Count="0" />
-      <LineId Id="1123" Count="0" />
       <LineId Id="1220" Count="0" />
       <LineId Id="1124" Count="0" />
       <LineId Id="748" Count="0" />
@@ -479,7 +491,9 @@ END_CASE]]></ST>
       <LineId Id="818" Count="4" />
       <LineId Id="817" Count="0" />
       <LineId Id="823" Count="1" />
-      <LineId Id="815" Count="1" />
+      <LineId Id="815" Count="0" />
+      <LineId Id="1254" Count="2" />
+      <LineId Id="816" Count="0" />
       <LineId Id="814" Count="0" />
       <LineId Id="795" Count="0" />
       <LineId Id="828" Count="0" />
